@@ -85,6 +85,6 @@ func readFile(path string) *bufio.Reader {
 
 func combineMaps(m1, m2 map[string]int) {
 	for key, val := range m2 {
-		m1[key] = val
+		m1[key] = m1[key] + val
 	}
 }
