@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"sort"
 )
@@ -36,7 +37,8 @@ func (wc *WCount) display() {
 		return ss[i].Value > ss[j].Value
 	})
 
-	for i := 0; i < wc.nDisplay; i++ {
+	nDisplay := math.Min(float64(len(wc.wcMap)), float64(wc.nDisplay))
+	for i := 0; i < int(nDisplay); i++ {
 		fmt.Printf("%s -> %d\n", ss[i].Key, ss[i].Value)
 	}
 }
