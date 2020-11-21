@@ -16,6 +16,7 @@ type WCount struct {
 	ignoreFlag bool
 	nDisplay   int
 	orderAsc   bool
+	sync       bool
 	wcMap      map[string]int
 }
 
@@ -47,6 +48,7 @@ func (wc *WCount) setFlags() {
 	ignoreFlag := flag.Bool("i", false, "ignore case distinctions")
 	nDisplay := flag.Int("n", 20, "No of words to display. By default top 20 words will be displayed")
 	order := flag.Bool("asc", false, "display result ascending")
+	sync := flag.Bool("sync", false, "whether to run the program sequentially. Default is true")
 
 	// parse the flag
 	flag.Parse()
@@ -58,6 +60,7 @@ func (wc *WCount) setFlags() {
 	wc.ignoreFlag = *ignoreFlag
 	wc.nDisplay = *nDisplay
 	wc.orderAsc = *order
+	wc.sync = *sync
 }
 
 func (wc *WCount) verifyFiles() {
