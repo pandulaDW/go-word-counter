@@ -2,22 +2,27 @@ package main
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"log"
 	"math"
 	"os"
+	"path/filepath"
 	"sort"
+	"strings"
+
+	"github.com/gabriel-vasile/mimetype"
 )
 
 // WCount is the type definition for both sync and concurrent count methods
 type WCount struct {
-	files      []string
-	ignoreFlag bool
-	nDisplay   int
-	orderAsc   bool
-	sync       bool
-	wcMap      map[string]int
+	files         []string
+	ignoreFlag    bool
+	nDisplay      int
+	orderAsc      bool
+	sync          bool
+	directory     bool
+	directoryPath string
+	wcMap         map[string]int
 }
 
 func (wc *WCount) display() {
@@ -44,25 +49,6 @@ func (wc *WCount) display() {
 	}
 }
 
-func (wc *WCount) setFlags() {
-	ignoreFlag := flag.Bool("i", false, "ignore case distinctions")
-	nDisplay := flag.Int("n", 20, "No of words to display. By default top 20 words will be displayed")
-	order := flag.Bool("asc", false, "display result ascending")
-	sync := flag.Bool("sync", false, "whether to run the program sequentially. Default is true")
-
-	// parse the flag
-	flag.Parse()
-
-	// parse the arguments
-	files := flag.Args()
-
-	wc.files = files
-	wc.ignoreFlag = *ignoreFlag
-	wc.nDisplay = *nDisplay
-	wc.orderAsc = *order
-	wc.sync = *sync
-}
-
 func (wc *WCount) verifyFiles() {
 	if len(wc.files) == 0 {
 		log.Fatal("No files specified")
@@ -73,6 +59,28 @@ func (wc *WCount) verifyFiles() {
 			log.Fatal(err)
 		}
 	}
+}
+
+func isTextFile(path string) bool {
+	mimeType, _ := mimetype.DetectFile(path)
+	if strings.HasPrefix(mimeType.String(), "text") {
+		return true
+	}
+	return false
+}
+
+func (wc *WCount) registerTextFiles() {
+	walkFunction := func(path string, info os.FileInfo, err error) error {
+		if isTextFile(path) {
+			wc.files = append(wc.files, path)
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		return err
+	}
+	filepath.Walk(wc.directoryPath, walkFunction)
+	fmt.Printf("Parsing %d text files\n", len(wc.files))
 }
 
 func readFile(path string) *bufio.Reader {

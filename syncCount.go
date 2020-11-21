@@ -16,11 +16,10 @@ func (wc *WCount) syncCount(path string) map[string]int {
 		words := strings.Split(line, " ")
 		for _, val := range words {
 			if wc.ignoreFlag {
-				val = strings.TrimSpace(val)
-			} else {
 				val = strings.ToLower(strings.TrimSpace(val))
+			} else {
+				val = strings.TrimSpace(val)
 			}
-			val = strings.ToLower(strings.TrimSpace(val))
 			wcMap[val]++
 		}
 	}

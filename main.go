@@ -10,7 +10,13 @@ func main() {
 
 	wc := WCount{}
 	wc.setFlags()
-	wc.verifyFiles()
+
+	// register files if directory, validate if not
+	if wc.directory {
+		wc.registerTextFiles()
+	} else {
+		wc.verifyFiles()
+	}
 
 	if wc.sync {
 		fmt.Println("running synchronized version")
