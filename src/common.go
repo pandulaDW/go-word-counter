@@ -35,6 +35,9 @@ func (wc *WCount) verifyFiles() {
 		if info.IsDir() {
 			log.Fatal("Directories are not allowed")
 		}
+		if !isTextFile(file) {
+			log.Fatal("Only text files are allowed")
+		}
 	}
 }
 
