@@ -5,7 +5,7 @@
 
  ## Includes
  - A synchronous version which process the files sequentially.
- - A concurrent version which forks a goroutine for each file read and then aggregating the results at the end.
+ - A concurrent version which forks a goroutine for each file read and then aggregate the results at the end.
  - A directory option to scan a directory and all of its sub directories to find text files and return the results.
  - A profile analysis of the two approaches is also included.
 

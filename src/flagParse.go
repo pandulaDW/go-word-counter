@@ -7,11 +7,11 @@ import (
 )
 
 func (wc *WCount) setFlags() {
-	ignoreFlag := flag.Bool("i", true, "ignore case distinctions. Default is true")
-	nDisplay := flag.Int("n", 20, "No of words to display. By default top 20 words will be displayed")
-	order := flag.Bool("asc", false, "display result ascending. Default is false")
-	sync := flag.Bool("sync", false, "whether to run the program sequentially. Default is false")
-	directory := flag.Bool("d", false, "whether to run in the directory mode. Default is false")
+	ignoreFlag := flag.Bool("i", true, "ignore case distinctions")
+	nDisplay := flag.Int("n", 20, "no of words to display")
+	order := flag.Bool("asc", false, "display the result in an ascending order")
+	sync := flag.Bool("sync", false, "whether to run the program sequentially")
+	directory := flag.Bool("d", false, "whether to run in the directory mode")
 
 	// parse the flag
 	flag.Parse()
