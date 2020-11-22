@@ -29,8 +29,11 @@ func (wc *WCount) verifyFiles() {
 	}
 	for _, file := range wc.files {
 		info, err := os.Stat(file)
-		if err != nil || info.IsDir() {
+		if err != nil {
 			log.Fatal(err)
+		}
+		if info.IsDir() {
+			log.Fatal("Directories are not allowed")
 		}
 	}
 }
